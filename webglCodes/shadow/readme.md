@@ -44,3 +44,7 @@ scene.add(helper)
 
 参考文档：
 [three.js 笔记 3--添加光源](https://godbasin.github.io/2017/04/22/three-notes-3-add-light-source/)
+
+### 效果：
+
+<img src='./result.png' height='300px'>

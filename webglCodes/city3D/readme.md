@@ -61,3 +61,7 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement)
 ### 示例一：city3D
 
 示例中我通过随机生成坐标位置以及高度，在 plan 上放置了 100 个矩形块并使用不同的颜色进行渲染，这样做出了一种类似 3D 城市建筑物的效果
+
+### 效果：
+
+<img src='./result.png' height='300px'>

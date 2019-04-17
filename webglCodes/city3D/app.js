@@ -5,7 +5,8 @@ const ctx = new ThreeFactory()
 ctx.init()
 
 // 初始化平地
-ctx.scene.add(ctx.initPlan())
+const plan = ctx.initPlan()
+ctx.scene.add(plan)
 
 // 随机颜色
 function getColor() {
@@ -68,5 +69,4 @@ ctx.renderer.shadowMapEnabled = true
 ctx.renderer.shadowMapType = THREE.PCFShadowMap
 
 addLight()
-initPlan()
 initCity()

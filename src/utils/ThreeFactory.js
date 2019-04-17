@@ -76,6 +76,19 @@ class ThreeFactory {
     plan.receiveShadow = true
     return plan
   }
+
+  initLight() {
+    // 添加直射光
+    const dLight = new THREE.DirectionalLight(0x444444)
+    dLight.position.set(100, 100, 60)
+    this.scene.add(dLight)
+
+    // 添加聚光灯
+    const light = new THREE.SpotLight({ color: '#ddd' })
+    // 需要开启阴影投射
+    light.castShadow = true
+    return light
+  }
 }
 
 export default ThreeFactory

@@ -58,6 +58,14 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement)
 
 这些操作是我们每次创建一个 ThreeJS 项目基本必须的代码，为了避免每次都需要复制一份初始化场景、相机、渲染器、stats、resize、controls 的代码，我们可以把这些操作封装起来做成一个工具函数，每次初始化场景的时候调用就好了。
 
+### 坐标系
+
+ThreeJS 中采用的是右手坐标系，x 轴向右为正方向，y 轴向上为正方向，z 轴又屏幕向外为正方形，如下所示
+![右手坐标系](https://img-blog.csdn.net/20161219120407406?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvUVE0MDg4OTY0MzY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+
+在 Three 中可以通过 **new THREE.AxesHelper(200)**创建一个坐标轴助手，这样在场景中就可以查看坐标轴，其中直线颜色红色为 X 轴，绿色为 Y 轴，蓝色为 Z 轴，如下图所示
+![Three坐标轴](https://img-blog.csdn.net/20161219120259390?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvUVE0MDg4OTY0MzY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+
 ### 示例一：city3D
 
 示例中我通过随机生成坐标位置以及高度，在 plan 上放置了 100 个矩形块并使用不同的颜色进行渲染，这样做出了一种类似 3D 城市建筑物的效果

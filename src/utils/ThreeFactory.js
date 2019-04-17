@@ -3,12 +3,13 @@ require('three/examples/js/controls/OrbitControls')
 import Stats from 'three/examples/js/libs/stats.min'
 
 class ThreeFactory {
-  constructor() {
+  constructor(opts) {
     this.scene = null
     this.camera = null
     this.renderer = null
     this.stats = null
     this.controls = null
+    this.opts = { el: null, ...opts }
   }
 
   _initCamera(fov = 45, aspect, near = 0.1, far = 1000) {
@@ -28,7 +29,11 @@ class ThreeFactory {
     //告诉渲染器需要阴影效果
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap // 默认的是，没有设置的这个清晰 THREE.PCFShadowMap
-    document.body.appendChild(renderer.domElement)
+    if (this.opts.el) {
+      this.opts.el.appendChild(renderer.domElement)
+    } else {
+      document.body.appendChild(renderer.domElement)
+    }
     this.renderer = renderer
   }
 

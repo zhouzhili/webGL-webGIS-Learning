@@ -63,7 +63,7 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement)
 ThreeJS 中采用的是右手坐标系，x 轴向右为正方向，y 轴向上为正方向，z 轴又屏幕向外为正方形，如下所示
 ![右手坐标系](https://img-blog.csdn.net/20161219120407406?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvUVE0MDg4OTY0MzY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
-在 Three 中可以通过 **new THREE.AxesHelper(200)**创建一个坐标轴助手，这样在场景中就可以查看坐标轴，其中直线颜色红色为 X 轴，绿色为 Y 轴，蓝色为 Z 轴，如下图所示
+在 Three 中可以通过 **new THREE.AxesHelper(200)** 创建一个坐标轴助手，这样在场景中就可以查看坐标轴，其中直线颜色红色为 X 轴，绿色为 Y 轴，蓝色为 Z 轴，如下图所示
 ![Three坐标轴](https://img-blog.csdn.net/20161219120259390?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvUVE0MDg4OTY0MzY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
 ### 示例一：city3D

@@ -84,9 +84,13 @@ class ThreeFactory {
 
   initLight() {
     // 添加直射光
-    const dLight = new THREE.DirectionalLight(0x444444)
-    dLight.position.set(100, 100, 60)
+    const dLight = new THREE.DirectionalLight(0xffffff)
+    dLight.position.set(0, 100, 0)
     this.scene.add(dLight)
+
+    // 自然光
+    const ambLight = new THREE.AmbientLight(0x606060)
+    this.scene.add(ambLight)
 
     // 添加聚光灯
     const light = new THREE.SpotLight({ color: '#ddd' })

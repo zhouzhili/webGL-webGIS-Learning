@@ -189,3 +189,6 @@ const mesh2 = new THREE.Mesh(box2, new THREE.MeshPhongMaterial({ map: cxk }))
    | MeshStandardMaterial(标准网格材质)   | 在实践中，这比 MeshLambertMaterial 或 MeshPhongMaterial 提供了一个更准确和逼真的结果，其成本在于计算成本更高。                                                     |
 
    ThreeJS 还提供了了其他材质，具体内容可以查看[官网文档](https://threejs.org/docs/index.html#api/zh/materials/Material)
+
+本节示例代码效果如下：
+<img src='./images/result.png' height='300px'>

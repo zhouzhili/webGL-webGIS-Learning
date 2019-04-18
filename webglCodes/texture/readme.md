@@ -190,5 +190,6 @@ const mesh2 = new THREE.Mesh(box2, new THREE.MeshPhongMaterial({ map: cxk }))
 
    ThreeJS 还提供了了其他材质，具体内容可以查看[官网文档](https://threejs.org/docs/index.html#api/zh/materials/Material)
 
-本节示例代码效果如下：
+本节示例代码效果如下，哈哈，cxk 我不是真的想黑你，只是这个图太好笑了
+
 <img src='./images/result.png' height='300px'>

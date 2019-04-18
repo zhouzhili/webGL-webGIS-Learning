@@ -1,4 +1,4 @@
-### ThreeJS(3): 纹理贴图
+### ThreeJS(3): 纹理与材质
 
 只看各种颜色的模型难免有些无聊，要想真正的展示 3D 世界，我们还需要贴图，使模型生动，真实起来。
 
@@ -167,4 +167,25 @@ const mesh = new THREE.Mesh(box, m)
 
 3. 视频贴图
 
-静止的图片
+静止的图片看上去没有生气，如果可以让贴图动起来就更好了，在 Three 中要使用动态贴图的话，提供的接口只有一个**VideoTexture**,创建一个使用视频来作为贴图的纹理对象，VideoTexture 的参数 video 是一个 DOM 元素，该 video 必须在视口范围内，如果元素在窗口范围外，视频是不会播放的。使用起来如下：
+
+```js
+const box2 = new THREE.BoxGeometry(20, 20, 20)
+const video = document.getElementById('cxk')
+const cxk = new THREE.VideoTexture(video)
+const mesh2 = new THREE.Mesh(box2, new THREE.MeshPhongMaterial({ map: cxk }))
+```
+
+4. 其他材质
+
+   | 材质                                 | 特点                                                                                                                                                               |
+   | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+   | MeshBasicMaterial(基础网格材质)      | 一个以简单着色（平面或线框）方式来绘制几何体的材质。这种材质不受光照的影响                                                                                         |
+   | MeshDepthMaterial(网格深度材质)      | 一种按深度绘制几何体的材质。深度基于相机远近平面。白色最近，黑色最远。                                                                                             |
+   | MeshLambertMaterial(网格朗伯材质)    | 一种非光泽表面的材质，没有镜面高光。可以很好地模拟一些表面（例如未经处理的木材或石材），但不能模拟具有镜面高光的光泽表面（例如涂漆木材）。可以对光源产生阴影的效果 |
+   | MeshNormalMaterial(网格法向材质)     | 一种把法向量映射到 RGB 颜色的材质。                                                                                                                                |
+   | MeshPhongMaterial(网格 phong 式材质) | 一种用于具有镜面高光的光泽表面的材质。该材质可以模拟具有镜面高光的光泽表面（例如涂漆木材）。可以产生阴影的效果                                                     |
+   | MeshPhysicalMaterial(物理网格材质)   | 能够更好地控制反射率。为了获得最佳效果，您在使用此材质时应始终指定环境贴图。                                                                                       |
+   | MeshStandardMaterial(标准网格材质)   | 在实践中，这比 MeshLambertMaterial 或 MeshPhongMaterial 提供了一个更准确和逼真的结果，其成本在于计算成本更高。                                                     |
+
+   ThreeJS 还提供了了其他材质，具体内容可以查看[官网文档](https://threejs.org/docs/index.html#api/zh/materials/Material)

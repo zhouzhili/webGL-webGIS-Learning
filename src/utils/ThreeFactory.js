@@ -83,17 +83,16 @@ class ThreeFactory {
   }
 
   initLight() {
-    // 添加直射光
-    const dLight = new THREE.DirectionalLight(0xffffff)
-    dLight.position.set(0, 100, 0)
-    this.scene.add(dLight)
+    // 环境光-均匀的照亮场景中的所有物体,不能投射阴影
+    const Alight = new THREE.AmbientLight(0x404040)
+    this.scene.add(Alight)
 
-    // 自然光
-    const ambLight = new THREE.AmbientLight(0x606060)
-    this.scene.add(ambLight)
+    // 平行光-模拟太阳光，可以投射阴影
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
+    this.scene.add(directionalLight)
 
     // 添加聚光灯
-    const light = new THREE.SpotLight({ color: '#ddd' })
+    const light = new THREE.SpotLight({ color: '#fff' })
     // 需要开启阴影投射
     light.castShadow = true
     return light

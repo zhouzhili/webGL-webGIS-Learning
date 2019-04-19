@@ -35,6 +35,7 @@ let mixer = null
 loader.load('./model/kgirls/scene.gltf', function(gltf) {
   const root = gltf.scene
   ctx.scene.add(root)
+  // 添加阴影
   root.traverse(obj => {
     if (obj.castShadow !== undefined) {
       obj.castShadow = true

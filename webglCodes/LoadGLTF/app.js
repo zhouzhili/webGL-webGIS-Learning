@@ -8,6 +8,7 @@ const ctx = new ThreeFactory()
 ctx.init()
 
 const plan = ctx.initPlan()
+plan.name = 'plan'
 ctx.scene.add(plan)
 
 ctx.camera.position.set(100, 90, 100)
@@ -23,6 +24,7 @@ let mixer = null
 // 加载模型
 loader.load('./model/kgirls/scene.gltf', function(gltf) {
   const root = gltf.scene
+  root.name = 'kGirls'
   ctx.scene.add(root)
   // 添加阴影
   root.traverse(obj => {
@@ -40,7 +42,7 @@ loader.load('./model/kgirls/scene.gltf', function(gltf) {
   })
 })
 
-// 根绝时钟调用动画
+// 根据时钟调用动画
 const clock = new THREE.Clock()
 const updateAnimate = () => {
   mixer && mixer.update(clock.getDelta())
@@ -49,5 +51,25 @@ const updateAnimate = () => {
 
 updateAnimate()
 
-const helper = new THREE.CameraHelper(spotLight.shadow.camera)
-ctx.scene.add(helper)
+// 射线拾取
+// var raycaster = new THREE.Raycaster()
+// var mouse = new THREE.Vector2()
+// function onMouseClick(evt) {
+//   mouse.x = (evt.clientX / window.innerWidth) * 2 - 1
+//   mouse.y = (evt.clientY / window.innerHeight) * 2 - 1
+
+//   raycaster.setFromCamera(mouse, ctx.camera)
+
+//   const intersects = raycaster.intersectObjects(ctx.scene.children)
+//   const plan = intersects.find(m => m.object.name === 'plan')
+
+//   if (plan) {
+//     const point = plan.point
+//     const kGirls = ctx.scene.children.find(m => m.name === 'kGirls')
+//     kGirls.position.x = -1 * point.x
+//     kGirls.position.z = point.z
+//   }
+
+// }
+
+// window.addEventListener('click', onMouseClick, false)

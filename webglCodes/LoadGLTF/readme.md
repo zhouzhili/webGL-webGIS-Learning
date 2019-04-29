@@ -60,7 +60,6 @@ updateAnimate()
 
 这样场景模型就能动起来了，最终效果如下：
 
-<video>
-您的浏览器不支持MP4格式视频，请使用chrome
-<source src='./result.mp4'>
+<video id="video" controls="" preload="none">
+<source id="mp4" src="./result.mp4" type="video/mp4">
 </video>

@@ -64,9 +64,6 @@ const axis = new THREE.AxesHelper(200)
 ctx.scene.add(axis)
 ctx.camera.position.set(100, 300, 100)
 ctx.camera.lookAt(0, 0, 0)
-// 启用阴影
-ctx.renderer.shadowMapEnabled = true
-ctx.renderer.shadowMapType = THREE.PCFShadowMap
 
 addLight()
 initCity()

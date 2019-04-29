@@ -6,26 +6,15 @@ import ThreeFactory from '../../src/utils/ThreeFactory'
 const ctx = new ThreeFactory()
 
 ctx.init()
-ctx.camera.position.set(100, 200, 0)
 
 const plan = ctx.initPlan()
 ctx.scene.add(plan)
 
+ctx.camera.position.set(100, 90, 100)
+ctx.camera.lookAt(0, 0, 0)
+
 const spotLight = ctx.initLight()
-spotLight.position.set(50, 50, 20)
-spotLight.castShadow = true
-//
-spotLight.shadow.mapSize.width = 1024
-spotLight.shadow.mapSize.height = 1024
-
-const cam = spotLight.shadow.camera
-cam.near = 10
-cam.far = 5000
-cam.left = -500
-cam.right = 500
-cam.top = 500
-cam.bottom = -500
-
+spotLight.position.set(50, 100, 0)
 ctx.scene.add(spotLight)
 
 const loader = new THREE.GLTFLoader()
@@ -49,12 +38,7 @@ loader.load('./model/kgirls/scene.gltf', function(gltf) {
   gltf.animations.forEach(clip => {
     mixer.clipAction(clip).play()
   })
-
-  console.log(gltf)
 })
-
-const spotHelper = new THREE.SpotLightHelper(spotLight)
-ctx.scene.add(spotHelper)
 
 // 根绝时钟调用动画
 const clock = new THREE.Clock()
@@ -64,5 +48,6 @@ const updateAnimate = () => {
 }
 
 updateAnimate()
-// const helper = new THREE.CameraHelper(ctx.camera)
-// ctx.scene.add(helper)
+
+const helper = new THREE.CameraHelper(spotLight.shadow.camera)
+ctx.scene.add(helper)

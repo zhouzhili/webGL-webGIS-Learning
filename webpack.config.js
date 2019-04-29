@@ -23,12 +23,17 @@ module.exports = function(env = {}) {
   if (!env.production) {
     plugins.push(new webpack.HotModuleReplacementPlugin())
   }
+  // const buildFolder = env.folder
 
   if (env.production) {
     Object.keys(entry).forEach(key => {
+      let template = './src/assets/webgl.html'
+      if (key.startsWith('webgl-')) {
+        template = './src/assets/template.html'
+      }
       plugins.push(
         new HtmlWebpackPlugin({
-          template: './src/assets/template.html',
+          template,
           title: key,
           chunks: [key],
           filename: `${key}.html`

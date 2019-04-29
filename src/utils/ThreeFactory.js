@@ -88,8 +88,8 @@ class ThreeFactory {
     this.scene.add(Alight)
 
     // 平行光-模拟太阳光，可以投射阴影
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
-    this.scene.add(directionalLight)
+    // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
+    // this.scene.add(directionalLight)
 
     // 添加聚光灯
     const light = new THREE.SpotLight({ color: '#fff' })

@@ -1,3 +1,9 @@
+/**
+ * 返回WebGLRenderingContext 对象
+ * @param {HTMLCanvasElement} canvas
+ * @param {Object} opt_attribs 
+ * @returns {WebGLRenderingContext} gl
+ */
 export function create3DContext(canvas, opt_attribs) {
   const names = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl']
   let context = null

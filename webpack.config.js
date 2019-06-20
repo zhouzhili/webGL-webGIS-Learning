@@ -95,7 +95,8 @@ module.exports = function(env = {}) {
       contentBase: path.join(__dirname, env.server || '.'),
       compress: true,
       port: 3000,
-      hot: true
+      hot: true,
+      open: true
       // ...
     },
 

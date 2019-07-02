@@ -20,6 +20,8 @@ module.exports = function(env = {}) {
 
   const plugins = []
 
+  let optimization = {}
+
   if (!env.production) {
     plugins.push(new webpack.HotModuleReplacementPlugin())
   }
@@ -40,6 +42,27 @@ module.exports = function(env = {}) {
         })
       )
     })
+
+    optimization = {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            name: "glHelper",
+            chunks: "initial",
+            minSize: 0,
+            minChunks: 2
+          },
+          vendor: {
+            priority: 1,//添加权重
+            test: /node_modules/,//把这个目录下符合下面几个条件的库抽离出来
+            name: "threeJs",
+            chunks: 'initial',//刚开始就要抽离
+            minSize: 0,//大小大于0字节的时候需要抽离出来
+            minChunks: 2,//重复2次使用的时候需要抽离出来
+          }
+        }
+      }
+    }
   }
 
   return {
@@ -100,7 +123,8 @@ module.exports = function(env = {}) {
       // ...
     },
 
-    plugins
+    plugins,
+    optimization,
     // list of additional plugins
 
     /* Advanced configuration (click to show) */

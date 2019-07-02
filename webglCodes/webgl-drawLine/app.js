@@ -1,4 +1,4 @@
-import { create3DContext, initShaders } from 'GLHelper'
+import { create3DContext, initShaders, pointsToBuffer } from 'GLHelper'
 import vertexShader from './vertex.glsl'
 import fragmentShader from './fragment.glsl'
 
@@ -11,15 +11,31 @@ gl.useProgram(program)
 
 const aPosition = gl.getAttribLocation(program, 'aPosition')
 
-const positionBuffer = gl.createBuffer()
-gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
+const vertices = [
+  [-1.0, -1.0],
+  [1.0, -1.0],
+  [1.0, 1.0],
+  [-1.0, 1.0]
+];
 
-const points = [
-  0, 0,
-  0, 1.0,
-  0.7, 0
-]
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW)
+const indexes = [
+  [0, 1, 3],
+  [3, 1, 2]
+];
+
+// 索引buffer
+const indexBuffer = gl.createBuffer()
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer)
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, pointsToBuffer(indexes, Uint8Array), gl.STATIC_DRAW)
+
+// 顶点buffer
+const vertexBuffer = gl.createBuffer()
+gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
+gl.bufferData(gl.ARRAY_BUFFER, pointsToBuffer(vertices), gl.STATIC_DRAW)
+
+// 设置画布大小
+const uResolution = gl.getUniformLocation(program, 'uResolution')
+gl.uniform2f(uResolution, gl.canvas.width, gl.canvas.height)
 
 gl.clearColor(0.0, 0.0, 0.0, 1.0)
 gl.clear(gl.COLOR_BUFFER_BIT)
@@ -36,5 +52,4 @@ var offset = 0;        // 从缓冲起始位置开始读取
 gl.vertexAttribPointer(
   aPosition, size, type, normalize, stride, offset)
 
-// 绘制三角形，画3个点
-gl.drawArrays(gl.LINES, 0, 2)
+gl.drawElements(gl.TRIANGLES, indexes.length * 3, gl.UNSIGNED_BYTE, 0)

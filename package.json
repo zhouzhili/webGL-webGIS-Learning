@@ -6,8 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --watch-poll --env.server=webglCodes",
     "dev": "webpack-dev-server --watch-poll --env.server=webglCodes",
-    "build": "webpack --env.production --env.folder=webglCodes",
-    "build:webgl": "webpack --env.production --env.folder=webglCodes",
+    "build": "rimraf dist && webpack --env.production --env.folder=webglCodes",
+    "build:webgl": "rimraf dist && webpack --env.production --env.folder=webglCodes",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "zzl",

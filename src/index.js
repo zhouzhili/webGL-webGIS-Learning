@@ -2,7 +2,7 @@
  * 返回WebGLRenderingContext 对象
  * @param {HTMLCanvasElement} canvas
  * @param {Object} opt_attribs 
- * @returns {WebGLRenderingContext} gl
+ * @returns {WebGLRenderingContext} gl对象
  */
 export function create3DContext(canvas, opt_attribs) {
   const names = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl']
@@ -94,15 +94,21 @@ export function initShaders(gl, vertex, fragment) {
   return program
 }
 
-export function pointsToBuffer(points) {
-  const deminsion = points[0].length
-  const len = points.length
-  const buffer = new Float32Array(deminsion * len)
-  let idx = 0
+/**
+ * 
+ * @param {Array} points 多维数组
+ * @param {} Type
+ * @returns {Float32Array} buffer 返回New Float32Array的一维平铺数组
+ */
+export function pointsToBuffer(points, Type = Float32Array) {
+  const deminsion = points[0].length;
+  const len = points.length;
+  const buffer = new Type(deminsion * len);
+  let idx = 0;
   for (let i = 0; i < len; i++) {
     for (let j = 0; j < deminsion; j++) {
-      buffer[idx++] = points[i][j]
+      buffer[idx++] = points[i][j];
     }
   }
-  return buffer
+  return buffer;
 }

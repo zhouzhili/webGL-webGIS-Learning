@@ -4,5 +4,4 @@
 2. [ThreeJS(2): 阴影和光照](https://github.com/zhouzhili/webGL-webGIS-Learning/tree/master/webglCodes/shadow)
 3. [ThreeJS(3): 纹理与材质](https://github.com/zhouzhili/webGL-webGIS-Learning/tree/master/webglCodes/texture)
 4. [ThreeJS(4): 外部模型](https://github.com/zhouzhili/webGL-webGIS-Learning/tree/master/webglCodes/LoadGLTF)
-5. ThreeJS(5): 交互操作
-6. ThreeJS(6): 动画处理
+5. [使用 GLSL 绘图](https://github.com/zhouzhili/webGL-webGIS-Learning/tree/master/webglCodes/webgl-drawLine)

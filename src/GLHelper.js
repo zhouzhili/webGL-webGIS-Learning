@@ -64,7 +64,7 @@ export function initShaders(gl, vertex, fragment) {
     const msg = `Vertex shader failed to compile.  The error log is:${gl.getShaderInfoLog(
       vertShdr
     )}`
-    console.error(msg)
+    console.log(msg)
     return -1
   }
 
@@ -76,7 +76,7 @@ export function initShaders(gl, vertex, fragment) {
     const msg = `Fragment shader failed to compile.  The error log is:${gl.getShaderInfoLog(
       fragShdr
     )}`
-    console.error(msg)
+    console.log(msg)
     return -1
   }
 
@@ -87,7 +87,7 @@ export function initShaders(gl, vertex, fragment) {
 
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
     const msg = `Shader program failed to link.  The error log is:${gl.getProgramInfoLog(program)}`
-    console.error(msg)
+    console.log(msg)
     return -1
   }
 

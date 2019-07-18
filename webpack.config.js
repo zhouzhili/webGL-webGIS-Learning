@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin') // eslint-disable-line
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const fs = require('fs')
 
 const entry = {}
@@ -18,7 +19,12 @@ module.exports = function(env = {}) {
     publicPath: '/'
   }
 
-  const plugins = []
+  const plugins = [
+    new MonacoWebpackPlugin({
+      languages: ['glsl'],
+      features: ['coreCommands']
+    })
+  ]
 
   let optimization = {}
 
@@ -55,7 +61,7 @@ module.exports = function(env = {}) {
           vendor: {
             priority: 1,//添加权重
             test: /node_modules/,//把这个目录下符合下面几个条件的库抽离出来
-            name: "threeJs",
+            name: "vendor",
             chunks: 'initial',//刚开始就要抽离
             minSize: 0,//大小大于0字节的时候需要抽离出来
             minChunks: 2,//重复2次使用的时候需要抽离出来
@@ -72,20 +78,22 @@ module.exports = function(env = {}) {
     output,
     resolve: {
       alias: {
-        GLHelper: path.resolve(__dirname, 'src/index')
+        GLHelper: path.resolve(__dirname, 'src/GLHelper'),
+        '@': path.resolve(__dirname, 'src')
       }
     },
 
     module: {
       rules: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules\/.*/,
-          use: {
-            loader: 'babel-loader',
-            options: { babelrc: true }
-          }
-        },
+        // monaco 需要
+        // {
+        //   test: /\.js$/,
+        //   exclude: /node_modules\/.*/,
+        //   use: {
+        //     loader: 'babel-loader',
+        //     options: { babelrc: true }
+        //   }
+        // },
         {
           test: /\.css$/,
           use: ['style-loader', 'css-loader']

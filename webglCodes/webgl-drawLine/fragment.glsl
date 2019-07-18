@@ -3,8 +3,6 @@ precision mediump float;
 uniform vec2 uResolution;
 
 float plot(float sy,float y){
-  // float p=smoothstep(sy+.01,sy,y)-smoothstep(sy,sy-.01,y);
-  // return sign(p);
   if(y-.01<sy&&sy<y+.01){
     return 1.;
   }else{

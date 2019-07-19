@@ -1,4 +1,4 @@
-import { initWebGLDraw } from '@/utils/fragmentDraw'
+import { GRender } from '@/utils/fragmentDraw'
 import glslLanguage from '@/utils/glsl-language'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
@@ -21,8 +21,10 @@ function initCodeEditor() {
     clearTimeout(interval)
     interval = setTimeout(() => {
       try {
-        const newVal = monacoIns.getValue()
-        initWebGLDraw(newVal)
+        const fragVal = monacoIns.getValue()
+        const enableTime = fragVal.indexOf('uniform float uTime;')
+        gRender.enableTime = enableTime !== -1
+        gRender.renderByShader(fragVal)
       } catch (e) {
         console.log(e)
       }
@@ -35,7 +37,7 @@ function addEvent() {
   const menuListEl = document.getElementById('menuList')
   menuListEl.addEventListener('click', function(e) {
     if (e.target.nodeName === 'LI') {
-      const name = e.target.dataset.name
+      const { name } = e.target.dataset
       if (name) {
         initDraw(name)
       }
@@ -51,11 +53,13 @@ function addEvent() {
 function initDraw(name) {
   import(`./fragments/${name}.glsl`).then((frag) => {
     monacoIns.setValue(frag.default)
-    initWebGLDraw(frag.default)
   })
 }
 
 
 const monacoIns = initCodeEditor()
-initDraw('coordinate')
+const gRender = new GRender({
+  canvas: document.getElementById('gl-canvas')
+})
 addEvent()
+initDraw('time')

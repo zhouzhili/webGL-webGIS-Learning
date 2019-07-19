@@ -1,4 +1,9 @@
-import { initWebGLDraw } from '@/utils/fragmentDraw'
+import { GRender } from '@/utils/fragmentDraw'
 import fragmentShader from './fragment.glsl'
 
-initWebGLDraw(fragmentShader)
+const gRender = new GRender({
+  canvas: document.getElementById('gl-canvas'),
+  fragmentShader: fragmentShader
+})
+
+gRender.render()

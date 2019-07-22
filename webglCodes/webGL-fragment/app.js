@@ -36,6 +36,11 @@ function addEvent() {
       const { name } = e.target.dataset
       if (name) {
         initDraw(name)
+        const allActive = document.querySelectorAll('li.active')
+        for (let i = 0; i < allActive.length; i++) {
+          allActive[i].className = ''
+        }
+        e.target.className += 'active'
       }
     }
   })
@@ -61,4 +66,4 @@ const gRender = new GRender({
   canvas: document.getElementById('gl-canvas')
 })
 addEvent()
-initDraw('time')
+initDraw('coordinate')

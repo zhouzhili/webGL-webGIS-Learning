@@ -30,6 +30,9 @@ html {
 }
 .menu > li:hover {
   cursor: pointer;
+  background-color: #252525;
+}
+.menu > li.active {
   background-color: #2f2f2f;
 }
 

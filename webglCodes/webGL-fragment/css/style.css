@@ -55,13 +55,13 @@ html {
   border-bottom: 1px solid #4c4b4b;
   margin-bottom: 20px;
   padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
 }
-.title .menu-ctr {
-  float: left;
-}
-.title .menu-ctr > img {
+.title img {
   width: 18px;
   height: 18px;
+  cursor: pointer;
 }
 .canvas-wrap {
   display: flex;

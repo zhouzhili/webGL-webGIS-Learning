@@ -15,26 +15,22 @@ function initCodeEditor() {
     },
     automaticLayout: true,
   });
-
-  let interval = null
-  monacoIns.onDidChangeModelContent((event) => {
-    clearTimeout(interval)
-    interval = setTimeout(() => {
-      try {
-        const fragVal = monacoIns.getValue()
-        const enableTime = fragVal.indexOf('uniform float uTime;')
-        gRender.enableTime = enableTime !== -1
-        gRender.renderByShader(fragVal)
-      } catch (e) {
-        console.log(e)
-      }
-    }, 2000)
-  })
   return monacoIns
 }
 
+function runCode() {
+  try {
+    const fragVal = monacoIns.getValue()
+    const enableTime = fragVal.indexOf('uniform float uTime;')
+    gRender.enableTime = enableTime !== -1
+    gRender.renderByShader(fragVal)
+  } catch (e) {
+    console.log(e)
+  }
+}
 function addEvent() {
   const menuListEl = document.getElementById('menuList')
+
   menuListEl.addEventListener('click', function(e) {
     if (e.target.nodeName === 'LI') {
       const { name } = e.target.dataset
@@ -44,15 +40,18 @@ function addEvent() {
     }
   })
 
-  document.querySelector('.menu-ctr').addEventListener('click', function(e) {
+  document.querySelector('#menuCtr').addEventListener('click', function(e) {
     const menuStyle = menuListEl.style.display
     menuListEl.style.display = menuStyle === 'none' ? 'block' : 'none'
   })
+
+  document.querySelector('#runCode').addEventListener('click', runCode)
 }
 
 function initDraw(name) {
   import(`./fragments/${name}.glsl`).then((frag) => {
     monacoIns.setValue(frag.default)
+    runCode()
   })
 }
 

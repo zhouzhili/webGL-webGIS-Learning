@@ -10,7 +10,7 @@ void main(){
   st=st*2.-1.;
   // 取绝对值之后 st 的范围就是[0,1]，dis的范围是[0.5,0.7071]
   float dis=length(abs(st)-.5);
-  //
+  // 乘以10后取余
   dis=fract(dis*10.);
   gl_FragColor.rgb=dis*vec3(1.);
   gl_FragColor.a=1.;

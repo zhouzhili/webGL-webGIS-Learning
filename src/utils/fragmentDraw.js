@@ -27,6 +27,7 @@ export class GRender {
     this.program = null
     this.vertexShader = vertexShader
     this.fragmentShader = fragmentShader
+    this.clock = null
   }
 
   _initGL() {
@@ -87,10 +88,10 @@ export class GRender {
 
     const uTimeLocation = this.gl.getUniformLocation(this.program, 'uTime')
 
-    const animateDraw = (time = 0) => {
-      if (uTimeLocation && this.enableTime) {
-        this.gl.uniform1f(uTimeLocation, time / 1000)
-      }
+    const animateDraw = () => {
+      const time = new Date().getTime() - this.clock
+      console.log('start', time)
+      this.gl.uniform1f(uTimeLocation, time / 1000)
       commonDraw()
       this._animateInterval = requestAnimationFrame(animateDraw)
     }
@@ -101,14 +102,15 @@ export class GRender {
       this.gl.drawElements(this.gl.TRIANGLES, indexes.length * 3, this.gl.UNSIGNED_BYTE, 0)
     }
 
-    if (this._animateInterval) {
-      cancelAnimationFrame(this._animateInterval)
-      console.log('clear animation frame')
-    }
-    if (this.enableTime) {
+    if (this.enableTime && uTimeLocation) {
       console.log('start animate draw')
+      this.clock = new Date().getTime()
       animateDraw()
     } else {
+      if (this._animateInterval) {
+        cancelAnimationFrame(this._animateInterval)
+        console.log('clear animation frame')
+      }
       commonDraw()
     }
   }

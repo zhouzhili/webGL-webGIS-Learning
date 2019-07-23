@@ -54,9 +54,11 @@ function addEvent() {
 }
 
 function initDraw(name) {
-  import(`./fragments/${name}.glsl`).then((frag) => {
-    monacoIns.setValue(frag.default)
+  gRender.loadGLSL(`./fragments/${name}.glsl`).then(code => {
+    monacoIns.setValue(code)
     runCode()
+  }).catch(err => {
+    console.log(`加载${name}.glsl失败`, err)
   })
 }
 

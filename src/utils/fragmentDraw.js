@@ -114,6 +114,20 @@ export class GRender {
   }
 
   /**
+   * 加载GLSL文件，返回文件内容
+   * @param {String} path 文件路径
+   */
+  loadGLSL(path) {
+    return new Promise((resolve, reject) => {
+      fetch(path).then(res => res.text()).then(resp => {
+        resolve(resp)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  }
+
+  /**
    * 
    */
   render() {

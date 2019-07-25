@@ -4,10 +4,11 @@
   "description": "learn webgl",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --watch-poll --env.server=webglCodes",
-    "dev": "webpack-dev-server --watch-poll --env.server=webglCodes",
-    "build": "rimraf dist && webpack --env.production --env.folder=webglCodes",
-    "build:webgl": "rimraf dist && webpack --env.production --env.folder=webglCodes",
+    "start": "npm run dev",
+    "dev": "webpack-dev-server --watch-poll --env.server=webglCodes --config ./webpack.config.js",
+    "dev:frag": "webpack-dev-server --watch-poll --env.server=webGL_fragment --config ./webpack.config.frag.js",
+    "build": "rimraf dist && webpack --env.production --env.folder=webglCodes --config ./webpack.config.js",
+    "build:frag": "rimraf dist_frag && webpack --env.production --env.folder=webGL_fragment --config ./webpack.config.frag.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "zzl",
@@ -22,6 +23,7 @@
     "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
+    "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.0",
     "eslint": "^5.12.0",
     "eslint-config-sprite": "^1.0.6",

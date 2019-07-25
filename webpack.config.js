@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin') // eslint-disable-line
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const fs = require('fs')
 
 const entry = {}
@@ -19,12 +18,7 @@ module.exports = function(env = {}) {
     publicPath: '/'
   }
 
-  const plugins = [
-    new MonacoWebpackPlugin({
-      languages: ['glsl'],
-      features: ['coreCommands']
-    })
-  ]
+  const plugins = []
 
   let optimization = {}
 
@@ -36,14 +30,18 @@ module.exports = function(env = {}) {
   if (env.production) {
     Object.keys(entry).forEach(key => {
       let template = './src/assets/webgl.html'
+      let chunks = ['glHelper']
       if (key.startsWith('webgl-')) {
         template = './src/assets/template.html'
+      } else {
+        chunks.push('vendor')
       }
+      chunks.push(key)
       plugins.push(
         new HtmlWebpackPlugin({
           template,
           title: key,
-          chunks: [key],
+          chunks,
           filename: `${key}.html`
         })
       )
@@ -85,15 +83,14 @@ module.exports = function(env = {}) {
 
     module: {
       rules: [
-        // monaco 需要
-        // {
-        //   test: /\.js$/,
-        //   exclude: /node_modules\/.*/,
-        //   use: {
-        //     loader: 'babel-loader',
-        //     options: { babelrc: true }
-        //   }
-        // },
+        {
+          test: /\.js$/,
+          exclude: /node_modules\/.*/,
+          use: {
+            loader: 'babel-loader',
+            options: { babelrc: true }
+          }
+        },
         {
           test: /\.css$/,
           use: ['style-loader', 'css-loader']

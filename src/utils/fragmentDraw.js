@@ -116,6 +116,11 @@ export class GRender {
     }
   }
 
+  /**
+   * 提取include的glsl文件名
+   * @param {String} glsl 
+   * @returns {Object} arr {reg:'',target} reg:需要被替换的内容,target:glsl文件名
+   */
   _getIncludeGLSL(glsl) {
     try {
       const reg = /#include <(.*?.glsl)>/g
@@ -135,6 +140,11 @@ export class GRender {
     }
   }
 
+  /**
+   * 根据传入的code , 判断是否有include，替换其为真实的code ，异步
+   * @param {String} glslCode 
+   * @returns {String} code
+   */
   async _formatterCode(glslCode) {
     try {
       let code = glslCode
@@ -157,8 +167,9 @@ export class GRender {
     }
   }
   /**
-   * 加载GLSL文件，返回文件内容
+   * 加载GLSL文件，返回文件内容 ，异步
    * @param {String} name 文件路径
+   * @returns {String} code 加载的glsl code 
    */
   async loadGLSL(name) {
     if (name) {
@@ -190,14 +201,20 @@ export class GRender {
   }
 
   /**
-   * 根据传入的片元着色器渲染
+   * 根据传入的片元着色器渲染, 异步
    * @param {String} fragmentShader
    * @param {String} vertexShader
+   * @returns {String} code 返回真实运行的code
    */
   async renderByShader(fragmentShader, vertexShader) {
-    this._initGL()
-    const code =await this._formatterCode(fragmentShader)
-    this._initProgram(code, vertexShader)
-    this._initPlayground()
+    try {
+      this._initGL()
+      const code = await this._formatterCode(fragmentShader)
+      this._initProgram(code, vertexShader)
+      this._initPlayground()
+      return code
+    } catch (err) {
+      throw err
+    }
   }
 }

@@ -18,16 +18,17 @@ function initCodeEditor() {
   return monacoIns
 }
 
-function runCode() {
+async function runCode() {
   try {
     const fragVal = monacoIns.getValue()
     const enableTime = fragVal.indexOf('uniform float uTime;')
     gRender.enableTime = enableTime !== -1
-    gRender.renderByShader(fragVal)
+    await gRender.renderByShader(fragVal)
   } catch (e) {
     console.log(e)
   }
 }
+
 function addEvent() {
   const menuListEl = document.getElementById('menuList')
 

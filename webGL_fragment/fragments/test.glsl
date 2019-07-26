@@ -6,6 +6,7 @@ precision mediump float;
 
 void main(){
   vec2 st=gl_FragCoord.xy;
-  gl_FragColor.rgb=step(256.,st.x)*vec3(1.);
+  vec3 line =sdLine(st,vec2(0.5),vec2(0.9),vec3(1.0));
+  gl_FragColor.rgb=line;
   gl_FragColor.a=1.;
 }

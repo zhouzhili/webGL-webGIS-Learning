@@ -54,7 +54,7 @@ function addEvent() {
 }
 
 function initDraw(name) {
-  gRender.loadGLSL(`./fragments/${name}.glsl`).then(code => {
+  gRender.loadGLSL(`${name}.glsl`).then(code => {
     monacoIns.setValue(code)
     runCode()
   }).catch(err => {
@@ -65,7 +65,8 @@ function initDraw(name) {
 
 const monacoIns = initCodeEditor()
 const gRender = new GRender({
-  canvas: document.getElementById('gl-canvas')
+  canvas: document.getElementById('gl-canvas'),
+  basePath:'./fragments/'
 })
 addEvent()
 initDraw('coordinate')

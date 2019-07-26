@@ -81,7 +81,6 @@ module.exports = function(env = {}) {
           }
         }
       ]
-
     },
 
     stats: 'errors-only',

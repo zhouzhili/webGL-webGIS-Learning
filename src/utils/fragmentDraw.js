@@ -19,7 +19,7 @@ export class GRender {
             gl_FragColor = vec4(0.0,0.0,0.0,1.0);
           }`
     }
-    const { enableTime, canvas, vertexShader, fragmentShader } = { ...defaultOpt, ...options }
+    const { enableTime, canvas, vertexShader, fragmentShader, basePath } = { ...defaultOpt, ...options }
     this.enableTime = enableTime
     this._animateInterval = null
     this.canvas = canvas
@@ -28,6 +28,7 @@ export class GRender {
     this.vertexShader = vertexShader
     this.fragmentShader = fragmentShader
     this.clock = null
+    this.baseFragPath = basePath || './'
   }
 
   _initGL() {
@@ -115,18 +116,68 @@ export class GRender {
     }
   }
 
+  _getIncludeGLSL(glsl) {
+    try {
+      const reg = /#include <(.*?.glsl)>/g
+      const arr = [];
+      let r = null
+      while (r = reg.exec(glsl)) {
+        arr.push({
+          reg: r[0],
+          target: r[1]
+        })
+      }
+      return arr
+    } catch (error) {
+      const errorMSg = 'the include format is not correct'
+      console.log(errorMSg, error)
+      throw error
+    }
+  }
+
+  async _formatterCode(glslCode) {
+    try {
+      let code = glslCode
+      // 判断是否包含 #include <*.glsl>
+      const reg = /#include <(.*?.glsl)>/g
+      if (reg.test(code)) {
+        // 替换 include代码
+        const includes = this._getIncludeGLSL(code)
+        await Promise.all(includes.map(async item => {
+          const subCode = await this.loadGLSL(item.target)
+          const formatSubCode = await this._formatterCode(subCode)
+          code = code.replace(item.reg, formatSubCode)
+        }))
+      }
+      return code
+    } catch (err) {
+      const errorMsg = `load ${fileName} glsl file failed,check Is the include format correct`
+      console.error(errorMsg)
+      throw new Error(errorMsg)
+    }
+  }
   /**
    * 加载GLSL文件，返回文件内容
-   * @param {String} path 文件路径
+   * @param {String} name 文件路径
    */
-  loadGLSL(path) {
-    return new Promise((resolve, reject) => {
-      fetch(path).then(res => res.text()).then(resp => {
-        resolve(resp)
-      }).catch(err => {
-        reject(err)
-      })
-    })
+  async loadGLSL(name) {
+    if (name) {
+      try {
+        const res = await fetch(this.baseFragPath + name)
+        if (res.ok) {
+          return await res.text()
+        } else {
+          const errorMsg = 'load glsl file failed: file name is ' + name
+          console.error(errorMsg)
+          throw new Error(errorMsg)
+        }
+      } catch (error) {
+        console.error('load glsl file failed: file name is ' + name)
+        throw error
+      }
+    } else {
+      console.error('glsl file name is required')
+    }
   }
 
   /**
@@ -143,9 +194,10 @@ export class GRender {
    * @param {String} fragmentShader
    * @param {String} vertexShader
    */
-  renderByShader(fragmentShader, vertexShader) {
+  async renderByShader(fragmentShader, vertexShader) {
     this._initGL()
-    this._initProgram(fragmentShader, vertexShader)
+    const code =await this._formatterCode(fragmentShader)
+    this._initProgram(code, vertexShader)
     this._initPlayground()
   }
 }

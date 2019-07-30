@@ -47,10 +47,10 @@ vec3 rgb(in int r,in int g,in int b){
 
 // 分割成不同行列格网
 vec2 grid(in vec2 p,in float row,in float col){
-  return vec2(p.x*col,p.y*row);
+  return fract(vec2(p.x*col,p.y*row));
 }
 
 // 分割成相同行列相同的格网
 vec2 grid(in vec2 p,in float t){
-  return p*t;
+  return fract(p*t);
 }

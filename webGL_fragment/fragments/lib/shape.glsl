@@ -1,3 +1,9 @@
+/*
+* 参考:
+* https://github.com/actarian/vscode-glsl-canvas/blob/master/src/snippets/snippets.md
+* http://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
+*/
+
 #define PI_TWO 1.570796326794897
 #define PI 3.141592653589793
 #define TWO_PI 6.283185307179586

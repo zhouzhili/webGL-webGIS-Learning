@@ -8,10 +8,6 @@
 #define PI 3.141592653589793
 #define TWO_PI 6.283185307179586
 
-/* Math 2D Transformations */
-mat2 rotate2d(in float angle){
-  return mat2(cos(angle),-sin(angle), sin(angle), cos(angle));
-}
 /*
 * shape 2D 参数说明
 * p 为着色器坐标

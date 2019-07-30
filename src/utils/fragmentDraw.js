@@ -14,10 +14,12 @@ export class GRender {
           gl_Position=aPosition;
           gl_PointSize=1.;
         }`,
-      fragmentShader: `precision mediump float;
-          void main() {
-            gl_FragColor = vec4(0.0,0.0,0.0,1.0);
-          }`
+      fragmentShader: `#ifdef GL_ES
+        precision mediump float;
+        #endif
+        void main(){
+          gl_FragColor=vec4(0.,0.,0.,1.);
+        }`
     }
     const { enableTime, canvas, vertexShader, fragmentShader, basePath } = { ...defaultOpt, ...options }
     this.enableTime = enableTime
@@ -173,17 +175,16 @@ export class GRender {
    */
   async loadGLSL(name) {
     if (name) {
+      const errorMsg = 'load glsl file failed: file name is ' + name
       try {
         const res = await fetch(this.baseFragPath + name)
         if (res.ok) {
           return await res.text()
         } else {
-          const errorMsg = 'load glsl file failed: file name is ' + name
-          console.error(errorMsg)
-          throw new Error(errorMsg)
+          throw errorMsg
         }
       } catch (error) {
-        console.error('load glsl file failed: file name is ' + name)
+        console.error(errorMsg)
         throw error
       }
     } else {

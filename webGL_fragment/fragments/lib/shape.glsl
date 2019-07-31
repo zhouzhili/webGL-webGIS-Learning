@@ -25,13 +25,13 @@ float sCircle(in vec2 p,in vec2 center,in float w){
 
 // 画弧线 ，输入坐标p ,圆心，直径 w,起始弧度s,终止弧度e
 float sArc(in vec2 p,in vec2 c, in float w, in float s, in float e) {
+  // 移动坐标在中心点
   p-=c;
   float a = distance(p, w*0.5*vec2(cos(s), sin(s)));
   float x = -PI;
   p *= mat2(cos(x - s), -sin(x - s), sin(x - s), cos(x - s));
   float b = clamp(atan(p.y, p.x), x, x + e);
   b = distance(p, w* 0.5*vec2(cos(b), sin(b)));
-  p+=c;
   return min(a, b) * 2.0;
 }
 
@@ -54,7 +54,6 @@ float sPie(in vec2 p,in vec2 c, in float w, in float s, in float e) {
   a = abs(step(s, a) - step(e, a));
   a = s < e ? a : 1.0 - a;
   float d = length(p);
-  p+=c;
   return 1.0 - (a - d * 2.0) - w;
 }
 
@@ -65,7 +64,6 @@ float sPoly(in vec2 p,in vec2 c,in float w,in int sides){
   float a=atan(p.x,p.y)+PI;
   float r=TWO_PI/float(sides);
   float d=cos(floor(.5+a/r)*r-a)*length(max(abs(p)*1.,0.));
-  p+=c;
   return d*2.-w;
 }
 

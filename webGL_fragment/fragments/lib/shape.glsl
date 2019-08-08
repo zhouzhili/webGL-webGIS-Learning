@@ -70,3 +70,11 @@ float sPoly(in vec2 p,in vec2 c,in float w,in int sides){
 	float d=cos(floor(.5+a/r)*r-a)*length(max(abs(p)*1.,0.));
 	return d*2.-w;
 }
+
+// 矩形
+float sRect(in vec2 p,vec2 c, in vec2 w) {  
+	p = translate(p,c);  
+		float d = max(abs(p.x / w.x), abs(p.y / w.y)) * 2.0;
+		float m = max(w.x, w.y);
+		return d * m - m;
+}

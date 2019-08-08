@@ -1,6 +1,7 @@
 #define rx 1./min(uResolution.x,uResolution.y)
 
 /* Math 2D Transformations */
+
 // 将坐标st，旋转 _angle度
 mat2 rotate2d(in float _angle){
 	float rad=radians(_angle);
@@ -51,8 +52,8 @@ vec2 grid(in vec2 p,in float row,in float col){
 }
 
 // 分割成相同行列相同的格网
-vec2 grid(in vec2 p,in float t){
-	return fract(p*t);
+vec2 grid(in vec2 p,int t){
+	return fract(p*float(t));
 }
 
 /*图形布尔运算*/

@@ -54,3 +54,19 @@ vec2 grid(in vec2 p,in float row,in float col){
 vec2 grid(in vec2 p,in float t){
 	return fract(p*t);
 }
+
+/*图形布尔运算*/
+// 合并，取并集
+float sdfUnion(float dis1,float dis2) {
+	return min(dis1,dis2);
+}
+
+// 相交，取交集
+float sdfIntersect(float dis1,float dis2){
+	return max(dis1,dis2);
+}
+
+// 相减
+float sdfDifference(float base, float subtraction){
+    return max(base, -subtraction);
+}

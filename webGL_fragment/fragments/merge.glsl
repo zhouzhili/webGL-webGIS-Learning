@@ -20,21 +20,30 @@ float intersect(float dis1,float dis2){
 
 // 相减
 float subtract(float base, float subtraction){
-    return intersect(base, -1.0*subtraction);
+	return max(base,-subtraction);
 }
 
-// 插值
-float interpolate(float dis1, float dis2, float amount){
-    return smoothstep(dis1, dis2, amount);
-}
 
 void main(){
 	vec2 st=gl_FragCoord.xy/uResolution;
-	float cdis = sCircle(st,vec2(0.5),0.2);
-	float rdis = sPoly(st,vec2(0.7),0.2,4);
-	// min 为并运算，max为交运算
-	float dis = subtract(cdis,rdis);
-	// dis = max(cdis,rdis);
+	// 交集
+	float c1 = sCircle(st,vec2(0.1,0.5),0.2);
+	float r1 = sPoly(st,vec2(0.2,0.6),0.2,4);
+	float dis1 = intersect(c1,r1);
+	
+	// 并
+	float c2 = sCircle(st,vec2(0.5,0.5),0.1);
+	float r2 = sPoly(st,vec2(0.5,0.6),0.1,4);
+	float dis2 = merge(c2,r2);
+	
+	// 差
+	float c3 = sCircle(st,vec2(0.8,0.5),0.1);
+	float r3 = sPoly(st,vec2(0.8,0.6),0.1,4);
+	float dis3 = subtract(c3,r3);
+	
+	float dis = merge(dis1,dis2);
+	dis = merge(dis,dis3);
+
 	gl_FragColor.rgb=fill(dis,AZUR);
 	gl_FragColor.a=1.;
 }

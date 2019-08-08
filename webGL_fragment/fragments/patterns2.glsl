@@ -11,10 +11,11 @@ uniform float uTime;
 
 vec2 grid2(in vec2 st,in float row,in float col){
   vec2 p=vec2(st.x*col,st.y*row);
-  // mod(p.y,2.0):取偶数行
+  // mod(p.y,2.0):除4取余
   float m=mod(uTime,4.);
   
   // 奇数行偏移正的,偶数偏移负的
+	// 前2秒横向后2秒纵向移动
   p.x+=step(0.,2.01-m)*step(1.,mod(p.y,2.))*m;
   p.x-=step(0.,2.01-m)*(1.-step(1.,mod(p.y,2.)))*m;
   

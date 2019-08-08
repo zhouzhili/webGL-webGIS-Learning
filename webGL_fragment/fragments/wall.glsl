@@ -9,7 +9,7 @@ uniform vec2 uResolution;
 
 vec2 grid2(in vec2 st,in float row,in float col){
   vec2 p=vec2(st.x*col,st.y*row);
-  // mod(p.y,2.0):取偶数行，偶数行偏移0.5
+  // mod(p.y,2.0):取偶数行，奇数行偏移0.5
   p.x+=step(1.,mod(p.y,2.))*.5;
   return fract(p);
 }

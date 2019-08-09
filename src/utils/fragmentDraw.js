@@ -90,8 +90,10 @@ export class GRender {
 
     const uTimeLocation = this.gl.getUniformLocation(this.program, 'uTime')
 
-    const uImage = this.gl.getUniformLocation(this.program, 'uImage')
-    if (uImage && this.texture) {
+    const uSampler = this.gl.getUniformLocation(this.program, 'uSampler')
+    if (uSampler && this.texture) {
+      // 将纹理进行Y轴反转，图片坐标系统原点在左上角
+      this.gl.pixelStorei(this.gl.UNPACK_FLIP_Y_WEBGL, 1)
       // 创建纹理
       var texture = this.gl.createTexture()
       this.gl.bindTexture(this.gl.TEXTURE_2D, texture)
@@ -110,6 +112,8 @@ export class GRender {
         this.gl.UNSIGNED_BYTE,
         this.texture
       )
+      // 将0号为例传递给着色器中的取样器变量
+      this.gl.uniform1i(uSampler, 0)
     }
 
     const animateDraw = () => {

@@ -10,7 +10,7 @@ uniform vec2 uResolution;
 void main(){
   vec2 st=gl_FragCoord.xy/uResolution;
   vec3 color = vec3(0.0);
-  st=grid(st,4.0);
+  st=grid(st,4);
 
   st = rotate2d(st,vec2(0.5),45.0);
   float cd = sPoly(st,vec2(0.5),sqrt(2.0)/2.0,4);

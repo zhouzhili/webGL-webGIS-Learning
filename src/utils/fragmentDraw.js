@@ -21,7 +21,10 @@ export class GRender {
           gl_FragColor=vec4(0.,0.,0.,1.);
         }`
     }
-    const { enableTime, canvas, vertexShader, fragmentShader, basePath } = { ...defaultOpt, ...options }
+    const { enableTime, canvas, vertexShader, fragmentShader, basePath } = {
+      ...defaultOpt,
+      ...options
+    }
     this.enableTime = enableTime
     this._animateInterval = null
     this.canvas = canvas
@@ -30,6 +33,7 @@ export class GRender {
     this.vertexShader = vertexShader
     this.fragmentShader = fragmentShader
     this.clock = null
+    this.texture = null
     this.baseFragPath = basePath || './'
   }
 
@@ -50,21 +54,17 @@ export class GRender {
 
   _initPlayground() {
     const aPosition = this.gl.getAttribLocation(this.program, 'aPosition')
-    const vertices = [
-      [-1.0, -1.0],
-      [1.0, -1.0],
-      [1.0, 1.0],
-      [-1.0, 1.0]
-    ];
+    const vertices = [[-1.0, -1.0], [1.0, -1.0], [1.0, 1.0], [-1.0, 1.0]]
 
-    const indexes = [
-      [0, 1, 3],
-      [3, 1, 2]
-    ];
+    const indexes = [[0, 1, 3], [3, 1, 2]]
     // 索引buffer
     const indexBuffer = this.gl.createBuffer()
     this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, indexBuffer)
-    this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, pointsToBuffer(indexes, Uint8Array), this.gl.STATIC_DRAW)
+    this.gl.bufferData(
+      this.gl.ELEMENT_ARRAY_BUFFER,
+      pointsToBuffer(indexes, Uint8Array),
+      this.gl.STATIC_DRAW
+    )
 
     // 顶点buffer
     const vertexBuffer = this.gl.createBuffer()
@@ -80,16 +80,37 @@ export class GRender {
     this.gl.enableVertexAttribArray(aPosition)
 
     // 告诉属性怎么从positionBuffer中读取数据 (ARRAY_BUFFER)
-    var size = 2;          // 每次迭代运行提取两个单位数据
-    var type = this.gl.FLOAT;   // 每个单位的数据类型是32位浮点型
-    var normalize = false; // 不需要归一化数据
-    var stride = 0;        // 0 = 移动单位数量 * 每个单位占用内存（sizeof(type)）
+    var size = 2 // 每次迭代运行提取两个单位数据
+    var type = this.gl.FLOAT // 每个单位的数据类型是32位浮点型
+    var normalize = false // 不需要归一化数据
+    var stride = 0 // 0 = 移动单位数量 * 每个单位占用内存（sizeof(type)）
     // 每次迭代运行运动多少内存到下一个数据开始点
-    var offset = 0;        // 从缓冲起始位置开始读取
-    this.gl.vertexAttribPointer(
-      aPosition, size, type, normalize, stride, offset)
+    var offset = 0 // 从缓冲起始位置开始读取
+    this.gl.vertexAttribPointer(aPosition, size, type, normalize, stride, offset)
 
     const uTimeLocation = this.gl.getUniformLocation(this.program, 'uTime')
+
+    const uImage = this.gl.getUniformLocation(this.program, 'uImage')
+    if (uImage && this.texture) {
+      // 创建纹理
+      var texture = this.gl.createTexture()
+      this.gl.bindTexture(this.gl.TEXTURE_2D, texture)
+      // 设置参数，让我们可以绘制任何尺寸的图像
+      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE)
+      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE)
+      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.NEAREST)
+      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST)
+
+      // 将图像上传到纹理
+      this.gl.texImage2D(
+        this.gl.TEXTURE_2D,
+        0,
+        this.gl.RGBA,
+        this.gl.RGBA,
+        this.gl.UNSIGNED_BYTE,
+        this.texture
+      )
+    }
 
     const animateDraw = () => {
       const time = new Date().getTime() - this.clock
@@ -120,15 +141,15 @@ export class GRender {
 
   /**
    * 提取include的glsl文件名
-   * @param {String} glsl 
+   * @param {String} glsl
    * @returns {Object} arr {reg:'',target} reg:需要被替换的内容,target:glsl文件名
    */
   _getIncludeGLSL(glsl) {
     try {
       const reg = /#include <(.*?.glsl)>/g
-      const arr = [];
+      const arr = []
       let r = null
-      while (r = reg.exec(glsl)) {
+      while ((r = reg.exec(glsl))) {
         arr.push({
           reg: r[0],
           target: r[1]
@@ -144,7 +165,7 @@ export class GRender {
 
   /**
    * 根据传入的code , 判断是否有include，替换其为真实的code ，异步
-   * @param {String} glslCode 
+   * @param {String} glslCode
    * @returns {String} code
    */
   async _formatterCode(glslCode) {
@@ -155,11 +176,13 @@ export class GRender {
       if (reg.test(code)) {
         // 替换 include代码
         const includes = this._getIncludeGLSL(code)
-        await Promise.all(includes.map(async item => {
-          const subCode = await this.loadGLSL(item.target)
-          const formatSubCode = await this._formatterCode(subCode)
-          code = code.replace(item.reg, formatSubCode)
-        }))
+        await Promise.all(
+          includes.map(async item => {
+            const subCode = await this.loadGLSL(item.target)
+            const formatSubCode = await this._formatterCode(subCode)
+            code = code.replace(item.reg, formatSubCode)
+          })
+        )
       }
       return code
     } catch (err) {
@@ -171,7 +194,7 @@ export class GRender {
   /**
    * 加载GLSL文件，返回文件内容 ，异步
    * @param {String} name 文件路径
-   * @returns {String} code 加载的glsl code 
+   * @returns {String} code 加载的glsl code
    */
   async loadGLSL(name) {
     if (name) {
@@ -192,8 +215,25 @@ export class GRender {
     }
   }
 
+  async loadTexture(path) {
+    if (path) {
+      return new Promise((resolve, reject) => {
+        const image = new Image()
+        image.src = path // MUST BE SAME DOMAIN!!!
+        image.onload = function() {
+          resolve(image)
+        }
+        image.onerror = function() {
+          reject(`load ${path} error`)
+        }
+      })
+    } else {
+      console.error('texture path is required')
+    }
+  }
+
   /**
-   * 
+   *
    */
   render() {
     this._initGL()

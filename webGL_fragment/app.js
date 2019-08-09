@@ -1,6 +1,6 @@
 import { GRender } from '@/utils/fragmentDraw'
 import glslLanguage from '@/utils/glsl-language'
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 
 function initCodeEditor() {
   monaco.languages.register({ id: 'glsl' })
@@ -13,8 +13,8 @@ function initCodeEditor() {
     minimap: {
       enabled: false
     },
-    automaticLayout: true,
-  });
+    automaticLayout: true
+  })
   return monacoIns
 }
 
@@ -23,6 +23,9 @@ async function runCode() {
     const fragVal = monacoIns.getValue()
     const enableTime = fragVal.indexOf('uniform float uTime;')
     gRender.enableTime = enableTime !== -1
+
+    const texture = await gRender.loadTexture('./assets/bricks.jpg')
+    gRender.texture = texture
     await gRender.renderByShader(fragVal)
   } catch (e) {
     console.log(e)
@@ -55,19 +58,21 @@ function addEvent() {
 }
 
 function initDraw(name) {
-  gRender.loadGLSL(`${name}.glsl`).then(code => {
-    monacoIns.setValue(code)
-    runCode()
-  }).catch(err => {
-    console.log(`加载${name}.glsl失败`, err)
-  })
+  gRender
+    .loadGLSL(`${name}.glsl`)
+    .then(code => {
+      monacoIns.setValue(code)
+      runCode()
+    })
+    .catch(err => {
+      console.log(`加载${name}.glsl失败`, err)
+    })
 }
-
 
 const monacoIns = initCodeEditor()
 const gRender = new GRender({
   canvas: document.getElementById('gl-canvas'),
-  basePath:'./fragments/'
+  basePath: './fragments/'
 })
 addEvent()
 initDraw('coordinate')

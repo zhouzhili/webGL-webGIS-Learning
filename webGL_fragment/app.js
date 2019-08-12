@@ -18,14 +18,15 @@ function initCodeEditor() {
   return monacoIns
 }
 
-async function runCode() {
+async function runCode(dataset) {
   try {
     const fragVal = monacoIns.getValue()
     const enableTime = fragVal.indexOf('uniform float uTime;')
     gRender.enableTime = enableTime !== -1
-
-    const texture = await gRender.loadTexture('./assets/bricks.jpg')
-    gRender.texture = texture
+    if (dataset.texture) {
+      const texture = await gRender.loadTexture(dataset.texture)
+      gRender.texture = texture
+    }
     await gRender.renderByShader(fragVal)
   } catch (e) {
     console.log(e)
@@ -37,9 +38,9 @@ function addEvent() {
 
   menuListEl.addEventListener('click', function(e) {
     if (e.target.nodeName === 'LI') {
-      const { name } = e.target.dataset
-      if (name) {
-        initDraw(name)
+      const dataset = e.target.dataset
+      if (dataset.name) {
+        initDraw(dataset)
         const allActive = document.querySelectorAll('li.active')
         for (let i = 0; i < allActive.length; i++) {
           allActive[i].className = ''
@@ -54,15 +55,18 @@ function addEvent() {
     menuListEl.style.display = menuStyle === 'none' ? 'block' : 'none'
   })
 
-  document.querySelector('#runCode').addEventListener('click', runCode)
+  document.querySelector('#runCode').addEventListener('click', function() {
+    const curLi = document.querySelectorAll('li.active')[0]
+    runCode(curLi.dataset)
+  })
 }
 
-function initDraw(name) {
+function initDraw(dataset) {
   gRender
-    .loadGLSL(`${name}.glsl`)
+    .loadGLSL(`${dataset.name}.glsl`)
     .then(code => {
       monacoIns.setValue(code)
-      runCode()
+      runCode(dataset)
     })
     .catch(err => {
       console.log(`加载${name}.glsl失败`, err)
@@ -75,4 +79,4 @@ const gRender = new GRender({
   basePath: './fragments/'
 })
 addEvent()
-initDraw('coordinate')
+initDraw({ name: 'coordinate' })

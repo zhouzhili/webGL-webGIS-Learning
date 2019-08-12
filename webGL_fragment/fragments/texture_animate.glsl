@@ -9,23 +9,15 @@ uniform sampler2D uSampler;
 #include <lib/util.glsl>
 #include <lib/shape.glsl>
 
-void wobble(inout vec2 position, float frequency, float amount){
-    vec2 wobble = sin(position.yx * frequency) * amount;
-    position += wobble;
+float rand(vec2 st) {
+  return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 void main(){
 	vec2 st=gl_FragCoord.xy/uResolution;
-	
-	float frequency = 5.0;
-	float offset = mod(uTime, PI * 2.0 / frequency);
-	st = translate(st, vec2(offset));
-	wobble(st, 5.0, .05);
-	st = translate(st, vec2(-offset));
-
-	float dis = sCircle(st,vec2(0.5),0.1);
+	float dis = sRect(st,vec2(0.5),vec2(0.2));
 	vec3 color=texture2D(uSampler,st.xy).rgb;
-	
+
 	gl_FragColor.rgb=fill(dis,color);
 	gl_FragColor.a=1.;
 }

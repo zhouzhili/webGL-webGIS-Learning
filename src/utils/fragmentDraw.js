@@ -25,16 +25,28 @@ export class GRender {
       ...defaultOpt,
       ...options
     }
+    // 是否启用时间
     this.enableTime = enableTime
+    // requestAnimationFrame
     this._animateInterval = null
     this.canvas = canvas
+    // gl和program
     this.gl = null
     this.program = null
+    // 定点着色器
     this.vertexShader = vertexShader
+    // 片元着色器
     this.fragmentShader = fragmentShader
+    // 时钟：时间
     this.clock = null
+    // 纹理
     this.texture = null
+    // 着色器的根目录
     this.baseFragPath = basePath || './'
+    // 变量
+    this.uniforms = {}
+    this.attributes = {}
+    this.varying = {}
   }
 
   _initGL() {
@@ -235,6 +247,8 @@ export class GRender {
       console.error('texture path is required')
     }
   }
+
+  _bindVariable() {}
 
   /**
    *

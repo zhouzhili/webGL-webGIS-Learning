@@ -1,6 +1,10 @@
 import { create3DContext, initShaders, pointsToBuffer } from 'GLHelper'
 
 export class GRender {
+  /**
+   * 初始化
+   * @param {Object} options {enableTime,canvas,vertexShader,fragmentShader,basePath}
+   */
   constructor(options) {
     const defaultOpt = {
       enableTime: false,

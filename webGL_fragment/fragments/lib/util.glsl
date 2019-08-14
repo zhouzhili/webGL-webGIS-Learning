@@ -6,8 +6,7 @@
 mat2 rotate2d(in float _angle){
 	float rad=radians(_angle);
 	// 旋转矩阵
-	mat2 rotateMat=mat2(cos(rad),-sin(rad),
-	sin(rad),cos(rad));
+	mat2 rotateMat=mat2(cos(rad),-sin(rad),sin(rad),cos(rad));
 	return rotateMat;
 }
 

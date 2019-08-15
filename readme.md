@@ -8,8 +8,10 @@
 
 4. [ThreeJS(4): 外部模型](https://github.com/zhouzhili/webGL-webGIS-Learning/tree/master/webglCodes/LoadGLTF)
 
-5. [构建自己的 GLSL 绘图器](https://github.com/zhouzhili/blog/issues/10)
+5. [webGL Hello world:绘制第一个三角形](https://github.com/zhouzhili/blog/issues/12)
 
-6. [webGL 二维有向距离场(SDF)及布尔运算](https://github.com/zhouzhili/blog/issues/11)
+6. [构建自己的 GLSL 绘图器](https://github.com/zhouzhili/blog/issues/10)
+
+7. [webGL 二维有向距离场(SDF)及布尔运算](https://github.com/zhouzhili/blog/issues/11)
 
 [着色器绘图在线示例](http://zhouzhili.github.io/dist_frag/index.html)

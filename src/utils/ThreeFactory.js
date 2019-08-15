@@ -10,6 +10,7 @@ class ThreeFactory {
     this.stats = null
     this.controls = null
     this.opts = { el: null, ...opts }
+    this.renderCb = null
   }
 
   _initCamera(fov = 45, aspect, near = 0.1, far = 1000) {
@@ -57,10 +58,16 @@ class ThreeFactory {
   _animate() {
     this.stats.update()
     this.controls.update()
-    this.renderer.render(this.scene, this.camera)
+    this._render()
     requestAnimationFrame(this._animate.bind(this))
   }
 
+  _render() {
+    if (typeof this.renderCb === 'function') {
+      this.renderCb()
+    }
+    this.renderer.render(this.scene, this.camera)
+  }
   init() {
     this._initScene()
     this._initCamera()

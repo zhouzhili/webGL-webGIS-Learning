@@ -38,27 +38,12 @@ gl.enableVertexAttribArray(aPosition)
 const aTexCoord = gl.getAttribLocation(program, 'aTexCoord')
 gl.vertexAttribPointer(aTexCoord, 2, gl.FLOAT, false, fSize * 4, fSize * 2)
 gl.enableVertexAttribArray(aTexCoord)
-
-const texture = gl.createTexture()
-const uSampler = gl.getUniformLocation(program, 'uSampler')
-
+// 启用2个纹理
 ;(async () => {
-  const image = await createTextureByUrl('./wall.jpg')
-
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
-  gl.activeTexture(gl.TEXTURE0)
-
-  gl.bindTexture(gl.TEXTURE_2D, texture)
-
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
-
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image)
-
-  gl.uniform1i(uSampler, 0)
-
+  const uSampler = gl.getUniformLocation(program, 'uSampler')
+  const uSampler2 = gl.getUniformLocation(program, 'uSampler2')
+  await initTexture('./wall.jpg', uSampler, 0)
+  await initTexture('./wall2.png', uSampler2, 1)
   gl.clearColor(0.0, 0.0, 0.0, 1.0)
   gl.clear(gl.COLOR_BUFFER_BIT)
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 8)
@@ -75,4 +60,27 @@ function createTextureByUrl(url) {
       reject(null)
     }
   })
+}
+
+async function initTexture(textureUrl, uSampler, textUnit) {
+  const texture = gl.createTexture()
+  const image = await createTextureByUrl(textureUrl)
+
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
+  if (textUnit === 0) {
+    gl.activeTexture(gl.TEXTURE0)
+  } else {
+    gl.activeTexture(gl.TEXTURE1)
+  }
+
+  gl.bindTexture(gl.TEXTURE_2D, texture)
+
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
+
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image)
+
+  gl.uniform1i(uSampler, textUnit)
 }

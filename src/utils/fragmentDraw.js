@@ -29,6 +29,7 @@ export class GRender {
       ...defaultOpt,
       ...options
     }
+    this.pointsToBuffer = pointsToBuffer
     // 是否启用时间
     this.enableTime = enableTime
     // requestAnimationFrame

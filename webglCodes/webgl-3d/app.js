@@ -15,7 +15,6 @@ gRender._initProgram()
 const gl = gRender.gl
 const program = gRender.program
 
-gl.enable(gl.DEPTH_TEST)
 initVertexBuffers()
 initMatrix()
 
@@ -58,7 +57,7 @@ function initVertexBuffers() {
     [0.5, -0.5, 0.5, 0.5, -0.5, 0.5],
     [0.5, 0.5, -0.5, 0.5, 0.5, 0.5]
   ]
-  const verticesColors = new Float32Array()
+  const verticesColors = gRender.pointsToBuffer(pointsAndColor)
 
   const FSize = verticesColors.BYTES_PER_ELEMENT
 
@@ -70,23 +69,18 @@ function initVertexBuffers() {
   const aPosition = gl.getAttribLocation(program, 'aPosition')
   gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, FSize * 3, 0)
   gl.enableVertexAttribArray(aPosition)
-
-  // 颜色
-  // const aColor = gl.getAttribLocation(program, 'aColor')
-  // gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, FSize * 6, FSize * 3)
-  // gl.enableVertexAttribArray(aColor)
 }
 
 function initMatrix() {
   // 视角矩阵，投影矩阵
   const viewMatrix = mat4.create()
-  mat4.lookAt(viewMatrix, [0.2, 0.25, 0.25], [0, 0, 0], [0, 1, 0])
+  mat4.lookAt(viewMatrix, [0.3, 0.3, 0.3], [0, 0, 0], [0, 1, 0])
 
   const uViewMatrix = gl.getUniformLocation(program, 'uViewMatrix')
   gl.uniformMatrix4fv(uViewMatrix, false, viewMatrix)
 
   const projectMatrix = mat4.create()
-  mat4.perspective(projectMatrix, 60, 512 / 512, 1, 100)
+  mat4.perspective(projectMatrix, 10, 512 / 512, 1, 100)
   const uProjectMatrix = gl.getUniformLocation(program, 'uProjectMatrix')
   gl.uniformMatrix4fv(uProjectMatrix, false, projectMatrix)
 }

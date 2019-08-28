@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
+  </head>
+  <body>
+    <script>
+      const box = document.createElement('div')
+      box.style.setProperty('background-color', '#008800')
+      box.style.setProperty('width', '100px')
+      box.style.setProperty('height', '100px')
+      document.body.appendChild(box)
+
+      // Setup the animation loop.
+      function animate() {
+        requestAnimationFrame(animate)
+        TWEEN.update()
+      }
+      // requestAnimationFrame(animate)
+      animate()
+      // TWEEN.update()
+      const coords = { x: 0, y: 0 } // Start at (0, 0)
+      const tween = new TWEEN.Tween(coords) // Create a new tween that modifies 'coords'.
+        .to({ x: 300, y: 200 }, 1000) // Move to (300, 200) in 1 second.
+        .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+        .onUpdate(obj => {
+          // box.style.setProperty('transform', `translate(${coords.x}px, ${coords.y}px)`)
+          console.log(coords)
+        })
+        .start()
+    </script>
+  </body>
+</html>

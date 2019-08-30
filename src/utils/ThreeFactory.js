@@ -9,7 +9,7 @@ class ThreeFactory {
     this.renderer = null
     this.stats = null
     this.controls = null
-    this.opts = { el: null, ...opts }
+    this.opts = { el: null, initLight: true, ...opts }
     this.renderCb = null
     this.mouseClickHandle = null
     this.rayCaster = new THREE.Raycaster()
@@ -46,6 +46,8 @@ class ThreeFactory {
       renderer.setSize(window.innerWidth, window.innerHeight)
       document.body.appendChild(renderer.domElement)
     }
+    const clearColor = (renderOpt && renderOpt.clearColor) || '#ccccff'
+    renderer.setClearColor(clearColor)
     this.renderer = renderer
   }
 
@@ -81,14 +83,32 @@ class ThreeFactory {
   init() {
     this._initScene()
     this._initCamera()
+    this.initGrid()
     this._initRender()
     this._initStats()
     this._initController()
+    if (this.opts.initLight) {
+      this._initDirecLight()
+    }
     this.renderer.render(this.scene, this.camera)
     this._animate()
 
     window.addEventListener('resize', this._onWindowResize.bind(this), false)
     this.renderer.domElement.addEventListener('click', this._onMouseClick.bind(this), false)
+  }
+
+  initGrid() {
+    const { gridOpt } = this.opts
+    const gridSetting = {
+      size: 200,
+      division: 20,
+      color1: '#555',
+      color2: '#555',
+      ...gridOpt
+    }
+    const grid = new THREE.GridHelper(gridSetting.size, gridSetting.division, gridSetting.color1, gridSetting.color2)
+    this.scene.add(grid)
+    this.grid = grid
   }
 
   /**
@@ -111,15 +131,17 @@ class ThreeFactory {
     const Alight = new THREE.AmbientLight(0x404040)
     this.scene.add(Alight)
 
-    // 平行光-模拟太阳光，可以投射阴影
-    // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
-    // this.scene.add(directionalLight)
-
     // 添加聚光灯
     const light = new THREE.SpotLight({ color: '#fff' })
     // 需要开启阴影投射
     light.castShadow = true
     return light
+  }
+
+  _initDirecLight() {
+    // 平行光-模拟太阳光，可以投射阴影
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
+    this.scene.add(directionalLight)
   }
 
   _onMouseClick(e) {
@@ -130,11 +152,27 @@ class ThreeFactory {
 
     this.rayCaster.setFromCamera(mouse, this.camera)
 
-    const intersects = this.rayCaster.intersectObjects(this.scene.children)
+    // 同事检查所有的后代
+    const intersects = this.rayCaster.intersectObjects(this.scene.children, true)
 
     if (typeof this.mouseClickHandle === 'function') {
       this.mouseClickHandle(intersects)
     }
+  }
+
+  /**
+   * 根据name值移除Mesh
+   * @param {} name
+   */
+  removeObjectByName(name) {
+    this.scene.children.forEach(m => {
+      if (m instanceof THREE.Mesh) {
+        if (m.name === name) {
+          this.scene.remove(m)
+          return true
+        }
+      }
+    })
   }
 }
 

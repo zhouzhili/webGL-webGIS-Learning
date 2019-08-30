@@ -7,14 +7,6 @@ ctx.init()
 ctx.camera.position.y = 100
 ctx.camera.lookAt(0, 0, 0)
 
-const plane = ctx.initPlan()
-plane.position.y = -5
-const light = ctx.initLight()
-light.position.set(20, 20, 20)
-
-// ctx.scene.add(plane)
-// ctx.scene.add(light)
-
 const textureLoader = new THREE.TextureLoader()
 const snow1 = textureLoader.load('./snowflake2.png')
 const snow2 = textureLoader.load('./snowflake5.png')

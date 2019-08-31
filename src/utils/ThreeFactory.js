@@ -9,7 +9,7 @@ class ThreeFactory {
     this.renderer = null
     this.stats = null
     this.controls = null
-    this.opts = { el: null, initLight: true, ...opts }
+    this.opts = { el: null, initLight: true, initGrid: true, ...opts }
     this.renderCb = null
     this.mouseClickHandle = null
     this.rayCaster = new THREE.Raycaster()
@@ -65,7 +65,10 @@ class ThreeFactory {
   }
 
   _initController() {
-    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement)
+    const controls = new THREE.OrbitControls(this.camera, this.renderer.domElement)
+    controls.enablePan = true
+    controls.keyPanSpeed = 7.0
+    this.controls = controls
   }
 
   _animate() {
@@ -98,17 +101,19 @@ class ThreeFactory {
   }
 
   initGrid() {
-    const { gridOpt } = this.opts
-    const gridSetting = {
-      size: 200,
-      division: 20,
-      color1: '#555',
-      color2: '#555',
-      ...gridOpt
+    const { gridOpt, initGrid } = this.opts
+    if (initGrid) {
+      const gridSetting = {
+        size: 200,
+        division: 20,
+        color1: '#555',
+        color2: '#555',
+        ...gridOpt
+      }
+      const grid = new THREE.GridHelper(gridSetting.size, gridSetting.division, gridSetting.color1, gridSetting.color2)
+      this.scene.add(grid)
+      this.grid = grid
     }
-    const grid = new THREE.GridHelper(gridSetting.size, gridSetting.division, gridSetting.color1, gridSetting.color2)
-    this.scene.add(grid)
-    this.grid = grid
   }
 
   /**

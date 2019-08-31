@@ -30,8 +30,8 @@ ctx.mouseClickHandle = insect => {
     if (group) {
       console.log(group.userData.originData.name)
 
-      const material = new MeshBasicMaterial({ color: '#0099FF' })
-      const material2 = new MeshBasicMaterial({ color: '#0099CC' })
+      const material = new THREE.MeshBasicMaterial({ color: 0xffff00 })
+      const material2 = new THREE.MeshBasicMaterial({ color: 0xff8800 })
       extrude.highlight(group, [material, material2])
     }
   }

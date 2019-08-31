@@ -20,7 +20,7 @@ export default class ExtrudeGeoJson {
     this.url = url
     this.group = new Group()
 
-    const materialFront = new MeshBasicMaterial({ color: '#12375D' })
+    const materialFront = new MeshBasicMaterial({ color: '#0099FF' })
     const materialSide = new MeshBasicMaterial({ color: '#112C49' })
 
     const lineMaterial1 = new LineBasicMaterial({ color: '#112C49', linewidth: 1 })

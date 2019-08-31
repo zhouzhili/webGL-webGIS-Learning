@@ -16,7 +16,9 @@ ctx.init()
 ctx.camera.position.set(0, 1000, 0)
 ctx.camera.lookAt(0, 0, 0)
 
-const extrude = new ExtrudeGeoJson('./china.json')
+const extrude = new ExtrudeGeoJson('./china.json',{
+  extrudeHeight:30
+})
 
 extrude.render().then(() => {
   extrude.group.scale.set(0.0001, 0.0001, 1)

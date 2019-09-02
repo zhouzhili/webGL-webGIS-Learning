@@ -1,15 +1,3 @@
-### 示例展示
-
-### 原生 WebGL 总结：
-
-1. [webGL Hello world:绘制第一个三角形](https://github.com/zhouzhili/blog/issues/12)
-
-2. [构建自己的 GLSL 绘图器](https://github.com/zhouzhili/blog/issues/10)
-
-3. [webGL 二维有向距离场(SDF)及布尔运算](https://github.com/zhouzhili/blog/issues/11)
-
-4. [着色器绘图在线示例](http://zhouzhili.github.io/dist_frag/index.html)
-
 ### ThreeJS 示例：
 
 1.  [ThreeJS(1): 初始化 ThreeJS 项目](https://github.com/zhouzhili/webGL-webGIS-Learning/tree/master/webglCodes/city3D)

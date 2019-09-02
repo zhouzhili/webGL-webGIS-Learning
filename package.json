@@ -6,10 +6,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "webpack-dev-server --watch-poll --env.server=webglCodes --config ./webpack.config.js",
-    "dev:frag": "webpack-dev-server --watch-poll --env.server=webGL_fragment --config ./webpack.config.frag.js",
-    "build": "rimraf dist && webpack --env.production --env.folder=webglCodes --config ./webpack.config.js",
-    "build:frag": "rimraf dist_frag && webpack --env.production --env.folder=webGL_fragment --config ./webpack.config.frag.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf dist && webpack --env.production --env.folder=webglCodes --config ./webpack.config.js"
   },
   "author": "zzl",
   "license": "ISC",

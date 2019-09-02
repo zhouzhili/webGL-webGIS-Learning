@@ -1,5 +1,5 @@
-import { GRender } from '@/utils/fragmentDraw'
-import glslLanguage from '@/utils/glsl-language'
+import { GRender } from './src/fragmentDraw'
+import glslLanguage from './src/glsl-language'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 
 function initCodeEditor() {

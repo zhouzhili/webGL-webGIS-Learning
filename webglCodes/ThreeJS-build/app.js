@@ -17,10 +17,10 @@ ctx.init()
 ctx.camera.position.set(0, 1000, 0)
 ctx.camera.lookAt(0, 0, 0)
 
-const directionalLight = new THREE.DirectionalLight(0x343434, 2)
+const directionalLight = new THREE.DirectionalLight(0x343434, 1.6)
 ctx.scene.add(directionalLight)
 
-const Alight = new THREE.AmbientLight(0xb6b6b6)
+const Alight = new THREE.AmbientLight(0xb6b6b6, 1.7)
 ctx.scene.add(Alight)
 
 const spotLight = new SpotLight(0xf5f1f1, 0.6)

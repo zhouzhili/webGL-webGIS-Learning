@@ -9,7 +9,7 @@ class ThreeFactory {
     this.renderer = null
     this.stats = null
     this.controls = null
-    this.opts = { el: null, initLight: true, initGrid: true, ...opts }
+    this.opts = { el: null, initLight: false, initGrid: false, ...opts }
     this.renderCb = null
     this.mouseClickHandle = null
     this.rayCaster = new THREE.Raycaster()

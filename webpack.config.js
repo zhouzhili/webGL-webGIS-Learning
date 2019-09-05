@@ -10,12 +10,12 @@ entryDir.forEach(dir => {
 })
 
 module.exports = function(env = {}) {
-  const outputPath = path.resolve(__dirname, env.outputPath || 'dist')
-
+  const outputPath = path.resolve(__dirname, 'dist')
+  const publicPath = env.production ? './' : '/'
   const output = {
     path: outputPath,
     filename: '[name]/app.js',
-    publicPath: './'
+    publicPath: publicPath
   }
 
   const plugins = []

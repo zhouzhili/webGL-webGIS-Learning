@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "webpack-dev-server --watch-poll --env.server=webglCodes --config ./webpack.config.js",
-    "build": "rimraf dist && webpack --env.production --env.folder=webglCodes --config ./webpack.config.js"
+    "build": "rimraf dist && webpack --env.production  --config ./webpack.config.js"
   },
   "author": "zzl",
   "license": "ISC",
@@ -27,6 +27,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.0",
+    "cz-conventional-changelog": "^3.0.2",
     "eslint": "^5.12.0",
     "eslint-config-sprite": "^1.0.6",
     "eslint-plugin-html": "^5.0.0",
@@ -50,5 +51,10 @@
     "proj4": "^2.5.0",
     "three": "^0.100.0",
     "url-loader": "^1.1.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

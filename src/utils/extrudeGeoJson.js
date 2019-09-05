@@ -23,12 +23,13 @@ export default class ExtrudeGeoJson {
     const materialFront = new MeshBasicMaterial({ color: '#0099FF' })
     const materialSide = new MeshBasicMaterial({ color: '#112C49' })
 
-    const lineMaterial1 = new LineBasicMaterial({ color: '#112C49', linewidth: 1 })
+    const lineMaterial = new LineBasicMaterial({ color: '#112C49', linewidth: 1 })
     const defaultSetting = {
       meshMaterial: [materialFront, materialSide],
-      lineMaterial: lineMaterial1,
+      lineMaterial: lineMaterial,
       extrudeHeight: 20,
-      showEdge: true
+      showEdge: true,
+      extrude: true
     }
     this.setting = {
       ...defaultSetting,
@@ -56,7 +57,7 @@ export default class ExtrudeGeoJson {
   }
 
   createPolygon(points, properties, index) {
-    const { center, showEdge } = this.setting
+    const { center, showEdge, extrude, lineHeight } = this.setting
     const pts = []
     points.forEach(point => {
       const offset = [point[0] - center[0], point[1] - center[1]]
@@ -71,17 +72,25 @@ export default class ExtrudeGeoJson {
     const meshMaterial = this.getMeshMaterial(properties, index)
     const lineMaterial = this.getLineMaterial(properties, index)
 
-    const geo = new ExtrudeGeometry(shape, {
-      depth: height,
-      bevelEnabled: false
-    })
-    const mesh = new Mesh(geo, meshMaterial)
-    group.add(mesh)
+    if (extrude) {
+      const geo = new ExtrudeGeometry(shape, {
+        depth: height,
+        bevelEnabled: false
+      })
+      const mesh = new Mesh(geo, meshMaterial)
+      mesh.castShadow = true
+      group.add(mesh)
+    }
 
     if (showEdge) {
       var edgeGeo = new ShapeGeometry(shape, 100)
       const line = new LineSegments(edgeGeo, lineMaterial)
-      line.position.z = height
+      let lineZ = height
+      if (lineHeight !== undefined) {
+        lineZ = lineHeight
+      }
+      line.position.z = lineZ
+      //
       group.add(line)
     }
     return group
@@ -135,7 +144,6 @@ export default class ExtrudeGeoJson {
       const { properties, geometry } = feature
       if (geometry) {
         const { type, coordinates } = geometry
-        const center = this.getCenter(geometry)
         const group = new Group()
         group.userData = { originData: { ...properties }, index: i }
         if (type === 'MultiPolygon') {

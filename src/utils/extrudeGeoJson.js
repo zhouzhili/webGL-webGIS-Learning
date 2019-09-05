@@ -5,19 +5,15 @@ import { Group, MeshBasicMaterial, Shape, ShapeGeometry, LineBasicMaterial, Vect
 export default class ExtrudeGeoJson {
   /**
    *
-   * @param {String} url url地址
    * @param {Object} opt 可选配置项
+   * @param {Object} data 数据项
    * @param {String} opt.center 中心点,如不配置将自动获取
    * @param {} opt.meshMaterial 面材质 单个，数组或者函数
    * @param {} opt.lineMaterial 面材质 单个，数组或者函数
    * @param {} opt.extrudeHeight 拉深高度，数值或者函数
    * @param {Boolean} opt.showEdge 是否显示边线
    */
-  constructor(url, opt) {
-    if (!url) {
-      throw new Error('geojson url is required')
-    }
-    this.url = url
+  constructor(opt) {
     this.group = new Group()
 
     const materialFront = new MeshBasicMaterial({ color: '#0099FF' })
@@ -216,7 +212,7 @@ export default class ExtrudeGeoJson {
   }
 
   async render() {
-    const data = await this.loadGeoJson()
+    const data = this.setting.data
     this.parseGeoJson(data)
     this.processGroup()
   }

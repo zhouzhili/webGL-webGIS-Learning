@@ -15,7 +15,7 @@ module.exports = function(env = {}) {
   const output = {
     path: outputPath,
     filename: '[name]/app.js',
-    publicPath: '/'
+    publicPath: './'
   }
 
   const plugins = []
@@ -51,18 +51,18 @@ module.exports = function(env = {}) {
       splitChunks: {
         cacheGroups: {
           commons: {
-            name: "glHelper",
-            chunks: "initial",
+            name: 'glHelper',
+            chunks: 'initial',
             minSize: 0,
             minChunks: 2
           },
           vendor: {
-            priority: 1,//添加权重
-            test: /node_modules/,//把这个目录下符合下面几个条件的库抽离出来
-            name: "vendor",
-            chunks: 'initial',//刚开始就要抽离
-            minSize: 0,//大小大于0字节的时候需要抽离出来
-            minChunks: 2,//重复2次使用的时候需要抽离出来
+            priority: 1, //添加权重
+            test: /node_modules/, //把这个目录下符合下面几个条件的库抽离出来
+            name: 'vendor',
+            chunks: 'initial', //刚开始就要抽离
+            minSize: 0, //大小大于0字节的时候需要抽离出来
+            minChunks: 2 //重复2次使用的时候需要抽离出来
           }
         }
       }
@@ -129,7 +129,7 @@ module.exports = function(env = {}) {
     },
 
     plugins,
-    optimization,
+    optimization
     // list of additional plugins
 
     /* Advanced configuration (click to show) */

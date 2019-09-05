@@ -3,6 +3,9 @@ import ExtrudeGeoJson from '@/utils/extrudeGeoJson'
 import { BoxGeometry, LineBasicMaterial, SpotLight, MeshLambertMaterial, Mesh } from 'three'
 import { GUI } from 'dat.gui'
 
+import chinaAll from './china_all.json'
+import chinaDivision from './china_division.json'
+
 const ctx = new ThreeFactory({
   cameraOpt: {
     far: 5000
@@ -44,7 +47,8 @@ plan.receiveShadow = true
 ctx.scene.add(plan)
 
 const materialFront = new MeshLambertMaterial({ color: 0xf31d2, transparent: true, opacity: 0.52 })
-const extrude = new ExtrudeGeoJson('./china_all.geojson', {
+const extrude = new ExtrudeGeoJson({
+  data: chinaAll,
   extrudeHeight: 50,
   showEdge: false,
   meshMaterial: materialFront
@@ -61,7 +65,8 @@ extrude.render().then(() => {
 let lineGroup = null
 const lineMaterial = new LineBasicMaterial({ color: 0x182e52, linewidth: 1 })
 function addLineGeo(center) {
-  const lineGeo = new ExtrudeGeoJson('./china_division.geojson', {
+  const lineGeo = new ExtrudeGeoJson({
+    data: chinaDivision,
     lineMaterial: lineMaterial,
     lineHeight: 49,
     center,

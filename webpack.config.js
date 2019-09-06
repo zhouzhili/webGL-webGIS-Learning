@@ -52,6 +52,7 @@ module.exports = function(env = {}) {
         cacheGroups: {
           commons: {
             name: 'glHelper',
+            filename: '[name].utils.js',
             chunks: 'initial',
             minSize: 0,
             minChunks: 2
@@ -59,7 +60,8 @@ module.exports = function(env = {}) {
           vendor: {
             priority: 1, //添加权重
             test: /node_modules/, //把这个目录下符合下面几个条件的库抽离出来
-            name: 'vendor',
+            name: 'three',
+            filename: '[name].vendor.js',
             chunks: 'initial', //刚开始就要抽离
             minSize: 0, //大小大于0字节的时候需要抽离出来
             minChunks: 2 //重复2次使用的时候需要抽离出来

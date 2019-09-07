@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin') // eslint-disable-line
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const fs = require('fs')
 
 const entry = {}
@@ -8,6 +9,21 @@ const entryDir = fs.readdirSync('./webglCodes')
 entryDir.forEach(dir => {
   entry[dir] = `./webglCodes/${dir}/app`
 })
+
+const copyFileToDist = dirName => {
+  const dir = `./webglCodes/${dirName}`
+  var pa = fs.readdirSync(dir)
+  const needCopyList = []
+  pa.forEach(ele => {
+    if (!['app.js', 'index.html', 'readme.md'].includes(ele)) {
+      needCopyList.push({
+        from: `${dir}/${ele}`,
+        to: `${dirName}/${ele}`
+      })
+    }
+  })
+  return new CopyWebpackPlugin(needCopyList)
+}
 
 module.exports = function(env = {}) {
   const outputPath = path.resolve(__dirname, 'dist')
@@ -25,16 +41,16 @@ module.exports = function(env = {}) {
   if (!env.production) {
     plugins.push(new webpack.HotModuleReplacementPlugin())
   }
-  // const buildFolder = env.folder
 
   if (env.production) {
     Object.keys(entry).forEach(key => {
       let template = './src/assets/webgl.html'
-      let chunks = ['glHelper']
+      let chunks = []
       if (key.startsWith('webgl-')) {
+        chunks.push('glHelper')
         template = './src/assets/template.html'
       } else {
-        chunks.push('vendor')
+        chunks.push('three', 'glHelper')
       }
       chunks.push(key)
       plugins.push(
@@ -45,6 +61,8 @@ module.exports = function(env = {}) {
           filename: `${key}.html`
         })
       )
+      // 复制材质模型等文件
+      plugins.push(copyFileToDist(key))
     })
 
     optimization = {
